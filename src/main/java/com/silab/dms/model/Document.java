@@ -24,6 +24,7 @@ public class Document {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="documentId")
     private int  id;
     
     @Column(name="name")

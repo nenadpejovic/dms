@@ -6,7 +6,10 @@
 package com.silab.dms.controllers;
 
 import com.silab.dms.model.Document;
+import com.silab.dms.model.User;
 import com.silab.dms.service.DocumentService;
+import com.silab.dms.service.UserService;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +26,19 @@ public class TestService {
     
     @Autowired
     DocumentService documentService;
+    
+    @Autowired
+    UserService userService;
             
     @RequestMapping("/documents")
-    public @ResponseBody List<Document> test(){
-        List<Document> documents = documentService.retrieveAllDocuments();
-        return documents;
+    public @ResponseBody List<Document> retrieveAllDocuments(){
+        return documentService.retrieveAllDocuments();
         
+        
+    }
+    
+    @RequestMapping("users")
+    public @ResponseBody List<User> retrieveAllUsers(){
+    	return userService.retrieveAllUsers();
     }
 }
