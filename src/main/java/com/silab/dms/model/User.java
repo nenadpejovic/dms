@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name="user")
@@ -23,9 +24,11 @@ public class User {
 	private int id;
 	
 	@Column(name="firstName")
+	@Range(min = 2)
 	private String firstName;
 	
 	@Column(name="lastName")
+	@Range(min = 2)
 	private String lastName;
 	
 	@Column(name="username")
@@ -35,11 +38,8 @@ public class User {
 	private String password;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "companyId", referencedColumnName="id", nullable = false)
+	@JoinColumn(name = "companyId", referencedColumnName="companyId", nullable = true)
 	private Company company;
-	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy="administrator")
-	private Company adminCompany;
 
 	public int getId() {
 		return id;
@@ -90,12 +90,29 @@ public class User {
 		this.company = company;
 	}
 
-	public Company getAdminCompany() {
-		return adminCompany;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+
+		if (getId() != user.getId()) return false;
+		if (!getUsername().equals(user.getUsername())) return false;
+		return getPassword().equals(user.getPassword());
+
 	}
 
-	public void setAdminCompany(Company adminCompany) {
-		this.adminCompany = adminCompany;
+	@Override
+	public int hashCode() {
+		int result = getId();
+		result = 31 * result + getUsername().hashCode();
+		result = 31 * result + getPassword().hashCode();
+		return result;
 	}
-	
+
+	@Override
+	public String toString() {
+		return firstName + " " + lastName + " (" + company + ")";
+	}
 }

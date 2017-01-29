@@ -5,12 +5,7 @@
  */
 package com.silab.dms.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 
@@ -31,12 +26,22 @@ public class Document {
     @Size(min = 3, max = 40)
     private String name;
 
-    public int getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "companyId", referencedColumnName="companyId", nullable = false)
+    private Company company;
+
+    @ManyToOne
+    @JoinColumn(name = "documentTypeId", referencedColumnName="id", nullable = false)
+    private DocumentType documentType;
+
+    public Document(String name, Company company, DocumentType documentType) {
+        this.name = name;
+        this.company = company;
+        this.documentType = documentType;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -46,7 +51,23 @@ public class Document {
     public void setName(String name) {
         this.name = name;
     }
-    
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -62,8 +83,13 @@ public class Document {
     }
 
     @Override
+    public int hashCode() {
+        return getId();
+    }
+
+    @Override
     public String toString() {
-        return "Name of document: "+name;
+        return name;
     }
     
     
