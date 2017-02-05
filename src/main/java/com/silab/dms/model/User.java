@@ -25,11 +25,9 @@ public class User {
     private int id;
 
     @Column(name = "firstName")
-    @Range(min = 2)
     private String firstName;
 
     @Column(name = "lastName")
-    @Range(min = 2)
     private String lastName;
 
     @Column(name = "username")
@@ -42,7 +40,17 @@ public class User {
     @JoinColumn(name = "companyId", referencedColumnName = "companyId", nullable = true)
     private Company company;
 
+    @Column(name = "role")
     private Role role;
+
+    public User(String firstName, String lastName, String username, String password, Company company, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.company = company;
+        this.role = role;
+    }
 
     public int getId() {
         return id;

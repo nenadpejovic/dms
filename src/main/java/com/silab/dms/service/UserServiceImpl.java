@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.silab.dms.model.builders.UserBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,29 +13,30 @@ import com.silab.dms.model.User;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-	@Autowired
-	UserDao userDao;
-	
-	@Override
-	public List<User> retrieveAllUsers() {
-		return userDao.retrieveAllUsers();
-	}
+    @Autowired
+    UserDao userDao;
 
-	@Override
-	public void save(User user) {
+    @Override
+    public List<User> retrieveAllUsers() {
+        return userDao.retrieveAllUsers();
+    }
 
-	}
+    @Override
+    public void save(User user) {
+        userDao.save(user);
+    }
 
-	@Override
-	public User findUser(User user) {
-		User foundUser = new User();
-		foundUser.setFirstName("Marko");
-		foundUser.setLastName("Savic");
-		foundUser.setUsername(user.getUsername());
-		foundUser.setPassword(user.getPassword());
-		return foundUser;
-	}
+    @Override
+    public User findUser(User user) {
+        User foundUser = new UserBuilder()
+                .setFirstName("Marko")
+                .setLastName("Savic")
+                .setUsername(user.getUsername())
+                .setPassword(user.getPassword())
+                .createUser();
+        return foundUser;
+    }
 
 }

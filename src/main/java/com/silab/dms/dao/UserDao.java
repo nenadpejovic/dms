@@ -6,4 +6,6 @@ import com.silab.dms.model.User;
 public interface UserDao {
 
 	public List<User> retrieveAllUsers();
+
+    void save(User user);
 }
