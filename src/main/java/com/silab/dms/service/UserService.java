@@ -10,4 +10,8 @@ import com.silab.dms.model.User;
 public interface UserService {
 
 	public List<User> retrieveAllUsers();
+
+    void save(User user);
+
+    User findUser(User user);
 }

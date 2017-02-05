@@ -22,4 +22,19 @@ public class UserServiceImpl implements UserService{
 		return userDao.retrieveAllUsers();
 	}
 
+	@Override
+	public void save(User user) {
+
+	}
+
+	@Override
+	public User findUser(User user) {
+		User foundUser = new User();
+		foundUser.setFirstName("Marko");
+		foundUser.setLastName("Savic");
+		foundUser.setUsername(user.getUsername());
+		foundUser.setPassword(user.getPassword());
+		return foundUser;
+	}
+
 }
