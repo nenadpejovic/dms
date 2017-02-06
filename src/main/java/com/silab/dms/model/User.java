@@ -43,6 +43,9 @@ public class User {
     @Column(name = "role")
     private Role role;
 
+    public User() {
+    }
+
     public User(String firstName, String lastName, String username, String password, Company company, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
