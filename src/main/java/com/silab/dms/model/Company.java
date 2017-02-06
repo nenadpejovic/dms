@@ -17,15 +17,18 @@ public class Company {
     @Column(name = "companyName")
     private String companyName;
 
-    @Column(name = "officeLocation")
-    private String officeLocation;
+    @Column(name = "officeAddress")
+    private String officeAddress;
+
+    @Column(name = "vat")
+    private long vat;
 
     @OneToOne(fetch = FetchType.LAZY)
     private User adminUser;
 
-    public Company(String companyName, String officeLocation, User adminUser) {
+    public Company(String companyName, long vat, User adminUser) {
         this.companyName = companyName;
-        this.officeLocation = officeLocation;
+        this.vat = vat;
         this.adminUser = adminUser;
     }
 
@@ -41,12 +44,20 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public String getOfficeLocation() {
-        return officeLocation;
+    public String getOfficeAddress() {
+        return officeAddress;
     }
 
-    public void setOfficeLocation(String officeLocation) {
-        this.officeLocation = officeLocation;
+    public void setOfficeAddress(String locationCity, String locationStreet, String locationStreetNumber) {
+        this.officeAddress = locationStreet + " " + locationStreetNumber + ", " + locationCity;
+    }
+
+    public long getVat() {
+        return vat;
+    }
+
+    public void setVat(long vat) {
+        this.vat = vat;
     }
 
     public User getAdminUser() {
@@ -66,7 +77,7 @@ public class Company {
 
         if (getCompanyId() != company.getCompanyId()) return false;
         if (!getCompanyName().equals(company.getCompanyName())) return false;
-        return getOfficeLocation().equals(company.getOfficeLocation());
+        return getOfficeAddress().equals(company.getOfficeAddress());
 
     }
 
@@ -74,12 +85,12 @@ public class Company {
     public int hashCode() {
         int result = (int) (getCompanyId() ^ (getCompanyId() >>> 32));
         result = 31 * result + getCompanyName().hashCode();
-        result = 31 * result + getOfficeLocation().hashCode();
+        result = 31 * result + getOfficeAddress().hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return companyName + " (" + officeLocation + ")";
+        return companyName + " (" + officeAddress + ")";
     }
 }

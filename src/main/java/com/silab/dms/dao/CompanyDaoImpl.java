@@ -17,4 +17,9 @@ public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements Com
 		return (List<Company>)criteria.list();
 	}
 
+	@Override
+	public void save(Company company) {
+		persist(company);
+	}
+
 }

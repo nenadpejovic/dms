@@ -7,5 +7,6 @@ import com.silab.dms.model.Company;
 public interface CompanyService {
 	
 	public List<Company> retrieveAllCompanies();
-	
+
+    void save(Company company);
 }

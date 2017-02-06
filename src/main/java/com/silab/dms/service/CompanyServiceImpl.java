@@ -21,4 +21,9 @@ public class CompanyServiceImpl implements CompanyService{
 		return companyDao.retrieveAllCompanies();
 	}
 
+	@Override
+	public void save(Company company) {
+		companyDao.save(company);
+	}
+
 }
