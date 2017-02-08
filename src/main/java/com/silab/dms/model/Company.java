@@ -20,7 +20,7 @@ public class Company {
     @Column(name = "officeAddress")
     private String officeAddress;
 
-    @Column(name = "vat")
+    @Column(name = "vat", unique = true)
     private long vat;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -75,17 +75,21 @@ public class Company {
 
         Company company = (Company) o;
 
-        if (getCompanyId() != company.getCompanyId()) return false;
-        if (!getCompanyName().equals(company.getCompanyName())) return false;
-        return getOfficeAddress().equals(company.getOfficeAddress());
+        if (getVat() != company.getVat()) return false;
+        if (getCompanyName() != null ? !getCompanyName().equals(company.getCompanyName()) : company.getCompanyName() != null)
+            return false;
+        if (getOfficeAddress() != null ? !getOfficeAddress().equals(company.getOfficeAddress()) : company.getOfficeAddress() != null)
+            return false;
+        return getAdminUser().equals(company.getAdminUser());
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (getCompanyId() ^ (getCompanyId() >>> 32));
-        result = 31 * result + getCompanyName().hashCode();
-        result = 31 * result + getOfficeAddress().hashCode();
+        int result = getCompanyName() != null ? getCompanyName().hashCode() : 0;
+        result = 31 * result + (getOfficeAddress() != null ? getOfficeAddress().hashCode() : 0);
+        result = 31 * result + (int) (getVat() ^ (getVat() >>> 32));
+        result = 31 * result + getAdminUser().hashCode();
         return result;
     }
 
