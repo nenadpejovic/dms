@@ -28,7 +28,7 @@ public class UserController {
                 .setPassword(loginInfo.getPassword())
                 .createUser();
 
-        User userFromDatabase = userService.findUser(user);
+        User userFromDatabase = userService.retrieveUser(user);
 
         return userFromDatabase;
     }

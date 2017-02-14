@@ -7,5 +7,8 @@ public interface UserDao {
 
 	public List<User> retrieveAllUsers();
 
-    void save(User user);
+    public void save(User user);
+    
+    public User retrieveUser(User user);
+    
 }

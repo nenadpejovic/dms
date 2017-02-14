@@ -29,14 +29,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUser(User user) {
-        User foundUser = new UserBuilder()
-                .setFirstName("Marko")
-                .setLastName("Savic")
-                .setUsername(user.getUsername())
-                .setPassword(user.getPassword())
-                .createUser();
-        return foundUser;
+    public User retrieveUser(User user) {
+    	
+        return userDao.retrieveUser(user);
     }
 
 }
