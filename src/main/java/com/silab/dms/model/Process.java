@@ -11,7 +11,6 @@ import java.util.Set;
 @Table(name = "process")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="processType",discriminatorType=DiscriminatorType.STRING)
-@DiscriminatorValue(value="type")
 public class Process {
     @Id
     @GeneratedValue
