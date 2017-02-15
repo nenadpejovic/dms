@@ -6,6 +6,10 @@
 package com.silab.dms.init;
 
 import com.silab.dms.config.AppConfig;
+
+import javax.servlet.Filter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -14,6 +18,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  */
 public class DmsInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
 
+	
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] { AppConfig.class };

@@ -33,12 +33,11 @@ public class TestService {
     @RequestMapping("/documents")
     public @ResponseBody List<Document> retrieveAllDocuments(){
         return documentService.retrieveAllDocuments();
-        
-        
     }
     
-    @RequestMapping("users")
+    @RequestMapping("/users")
     public @ResponseBody List<User> retrieveAllUsers(){
     	return userService.retrieveAllUsers();
     }
+    
 }
