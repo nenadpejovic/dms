@@ -14,4 +14,6 @@ public interface UserService {
     public void save(User user);
 
     public User retrieveUser(User user);
+
+    public List<User> loadUsersFromCompany(long vat);
 }

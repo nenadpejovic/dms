@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by msav on 2/4/2017.
  */
@@ -46,5 +48,11 @@ public class UserController {
         userService.save(user);
 
         return user;
+    }
+
+    @RequestMapping(value = "loadusers/{vat}")
+    public @ResponseBody
+    List<User> loadUsersFromCompany(@PathVariable long vat) {
+        return userService.loadUsersFromCompany(vat);
     }
 }

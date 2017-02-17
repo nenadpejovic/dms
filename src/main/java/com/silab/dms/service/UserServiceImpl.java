@@ -34,4 +34,9 @@ public class UserServiceImpl implements UserService {
         return userDao.retrieveUser(user);
     }
 
+    @Override
+    public List<User> loadUsersFromCompany(long vat) {
+        return userDao.retrieveAllUsersFromCompany(vat);
+    }
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.ordering.antlr.GeneratedOrderByFragmentRendererTokenTypes;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +35,15 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public List<User> retrieveAllUsersFromCompany(long vat) {
+		Criteria criteria = getSession().createCriteria(User.class, "user")
+										.createAlias("company", "company");
+
+		criteria.add(Restrictions.eq("company.vat", vat));
+		return criteria.list();
 	}
 
 }
