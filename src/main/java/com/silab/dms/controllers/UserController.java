@@ -50,9 +50,15 @@ public class UserController {
         return user;
     }
 
-    @RequestMapping(value = "loadusers/{vat}")
+    @RequestMapping(value = "loadusers/{vat}", method = RequestMethod.GET)
     public @ResponseBody
     List<User> loadUsersFromCompany(@PathVariable long vat) {
         return userService.loadUsersFromCompany(vat);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody User updateUser(@RequestBody User user) {
+        userService.updateUser(user);
+        return user;
     }
 }

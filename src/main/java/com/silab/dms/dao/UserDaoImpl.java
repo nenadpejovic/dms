@@ -46,4 +46,9 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		return criteria.list();
 	}
 
+	@Override
+	public void updateUser(User user) {
+		getSession().update(user);
+	}
+
 }

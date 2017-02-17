@@ -39,4 +39,9 @@ public class UserServiceImpl implements UserService {
         return userDao.retrieveAllUsersFromCompany(vat);
     }
 
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+    }
+
 }
