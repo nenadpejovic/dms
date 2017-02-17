@@ -2,6 +2,8 @@ package com.silab.dms.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by msav on 1/29/2017.
  */
@@ -24,12 +26,17 @@ public class Company {
     private long vat;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User adminUser;
 
     public Company(String companyName, long vat, User adminUser) {
         this.companyName = companyName;
         this.vat = vat;
         this.adminUser = adminUser;
+    }
+    
+    public Company(){
+    	
     }
 
     public long getCompanyId() {

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by msav on 2/4/2017.
  */
@@ -28,7 +30,7 @@ public class UserController {
                 .setPassword(loginInfo.getPassword())
                 .createUser();
 
-        User userFromDatabase = userService.findUser(user);
+        User userFromDatabase = userService.retrieveUser(user);
 
         return userFromDatabase;
     }
@@ -45,6 +47,18 @@ public class UserController {
 
         userService.save(user);
 
+        return user;
+    }
+
+    @RequestMapping(value = "loadusers/{vat}", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> loadUsersFromCompany(@PathVariable long vat) {
+        return userService.loadUsersFromCompany(vat);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public @ResponseBody User updateUser(@RequestBody User user) {
+        userService.updateUser(user);
         return user;
     }
 }

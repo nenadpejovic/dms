@@ -1,11 +1,17 @@
 package com.silab.dms.model;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+
+
 import java.util.List;
 
 /**
  * Created by msav on 1/29/2017.
  */
+@Entity
+@DiscriminatorValue(value="primitive")
 public class PrimitiveProcess extends Process {
 
     @OneToMany(mappedBy = "activity")

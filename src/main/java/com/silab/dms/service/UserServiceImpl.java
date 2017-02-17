@@ -29,14 +29,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUser(User user) {
-        User foundUser = new UserBuilder()
-                .setFirstName("Marko")
-                .setLastName("Savic")
-                .setUsername(user.getUsername())
-                .setPassword(user.getPassword())
-                .createUser();
-        return foundUser;
+    public User retrieveUser(User user) {
+    	
+        return userDao.retrieveUser(user);
+    }
+
+    @Override
+    public List<User> loadUsersFromCompany(long vat) {
+        return userDao.retrieveAllUsersFromCompany(vat);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 
 }

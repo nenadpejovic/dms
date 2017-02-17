@@ -7,5 +7,11 @@ public interface UserDao {
 
 	public List<User> retrieveAllUsers();
 
-    void save(User user);
+    public void save(User user);
+    
+    public User retrieveUser(User user);
+
+    public List<User> retrieveAllUsersFromCompany(long vat);
+
+    public void updateUser(User user);
 }

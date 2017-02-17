@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by msav on 1/29/2017.
  */
 @Entity
-@DiscriminatorValue(value = "complexProcess")
+@DiscriminatorValue(value = "complex")
 public class ComplexProcess extends Process {
     @OneToMany(mappedBy = "processId")
     private Set<Process> childProcesses;

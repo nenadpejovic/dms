@@ -11,7 +11,11 @@ public interface UserService {
 
 	public List<User> retrieveAllUsers();
 
-    void save(User user);
+    public void save(User user);
 
-    User findUser(User user);
+    public User retrieveUser(User user);
+
+    public List<User> loadUsersFromCompany(long vat);
+
+    public void updateUser(User user);
 }
