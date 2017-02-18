@@ -1,5 +1,7 @@
 package com.silab.dms.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +28,11 @@ public class Process {
 
     @ManyToOne
     @JoinColumn(name = "parentId", referencedColumnName = "processId", nullable = true)
+    @JsonBackReference
     private Process parentProcess;
+
+    public Process() {
+    }
 
     public Process(Company company, String processName, Process parentProcess) {
         this.company = company;

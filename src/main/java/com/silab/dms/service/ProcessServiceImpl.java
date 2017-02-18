@@ -11,14 +11,19 @@ import com.silab.dms.model.Process;
 
 @Service("process")
 @Transactional
-public class ProcessServiceImpl implements ProcessDao{
+public class ProcessServiceImpl implements ProcessService{
 
 	@Autowired
 	ProcessDao processDao;
-	
+
 	@Override
 	public List<Process> retrieveAllProcesses() {
 		return processDao.retrieveAllProcesses();
+	}
+
+	@Override
+	public List<Process> getProcessesByCompany(long vat) {
+		return processDao.retreiveProcessesByCompany(vat);
 	}
 
 }
