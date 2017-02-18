@@ -17,7 +17,7 @@ public class Activity {
 
     @ManyToOne
     @JoinColumn(name = "processId", referencedColumnName = "processId", nullable = false)
-    private Process process;
+    private PrimitiveProcess process;
 
     @Column(name = "activityName")
     @Range(min = 3, max = 50)
@@ -31,7 +31,7 @@ public class Activity {
     @JoinColumn(name = "documentId", referencedColumnName = "documentId", nullable = false, insertable = false, updatable = false)
     private Document outputDocument;
 
-    public Activity(Process process, String activityName, Document inputDocument, Document outputDocument) {
+    public Activity(PrimitiveProcess process, String activityName, Document inputDocument, Document outputDocument) {
         this.process = process;
         this.activityName = activityName;
         this.inputDocument = inputDocument;
@@ -42,11 +42,11 @@ public class Activity {
         return activityId;
     }
 
-    public Process getProcess() {
+    public PrimitiveProcess getProcess() {
         return process;
     }
 
-    public void setProcess(Process process) {
+    public void setProcess(PrimitiveProcess process) {
         this.process = process;
     }
 
