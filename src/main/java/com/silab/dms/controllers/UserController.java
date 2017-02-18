@@ -7,6 +7,7 @@ import com.silab.dms.model.User;
 import com.silab.dms.model.builders.UserBuilder;
 import com.silab.dms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,5 +61,15 @@ public class UserController {
     public @ResponseBody User updateUser(@RequestBody User user) {
         userService.updateUser(user);
         return user;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public @ResponseBody HttpStatus deleteUser(@RequestBody User user) {
+        try {
+            userService.deleteUser(user);
+            return HttpStatus.OK;
+        }catch (Exception e) {
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
     }
 }
