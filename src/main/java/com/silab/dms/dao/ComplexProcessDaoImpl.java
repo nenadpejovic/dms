@@ -21,8 +21,7 @@ public class ComplexProcessDaoImpl extends AbstractDao<Integer, CompanyDao> impl
 
 	@Override
 	public List<ComplexProcess> retrieveComplexProcessesByCompany(Company company) {
-		
-		Query query = getSession().createQuery("from Process where companyId = :companyId");
+		Query query = getSession().createQuery("from Company where companyId = :companyId");
 		query.setParameter("companyId", company.getCompanyId());
 		List<ComplexProcess> complexProccesses = query.list();
 		return complexProccesses;

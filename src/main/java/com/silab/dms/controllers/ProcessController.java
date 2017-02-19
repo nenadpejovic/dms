@@ -1,44 +1,27 @@
 package com.silab.dms.controllers;
 
+import com.silab.dms.model.Process;
+import com.silab.dms.service.ProcessService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.silab.dms.controllers.dto.CompanyInfo;
-import com.silab.dms.model.Company;
-import com.silab.dms.model.ComplexProcess;
-import com.silab.dms.service.ComplexProcessService;
-
+/**
+ * Created by msav on 2/18/2017.
+ */
 @CrossOrigin
-@RestController
+@Controller
 @RequestMapping("/process")
 public class ProcessController {
 
-	@Autowired
-	ComplexProcessService complexProcessService;
-	
-	@RequestMapping(value = "/complexprocesses", method = RequestMethod.GET)
-	public @ResponseBody List<ComplexProcess> retrieveComplexProccessesByCompany(@RequestBody CompanyInfo companyInfo){
-        Company company = new Company(companyInfo.getCompanyName(), companyInfo.getVat(), companyInfo.getUser());
-        company.setOfficeAddress(companyInfo.getOfficeLocationCity(), companyInfo.getOfficeLocationStreet(),
-                companyInfo.getOfficeLocationStreetNumber());
-        
-        return complexProcessService.retrieveComplexProcessesByCompany(company);
-	}
-	
-	@RequestMapping(value = "/complexprocesses1", method = RequestMethod.GET)
-	public @ResponseBody List<ComplexProcess> retrieveComplexProccessesByCompany(){
-        
-        return complexProcessService.retrieveComplexProcesses();
-	}
+    @Autowired
+    ProcessService processService;
+
+    @RequestMapping(value = "/{vat}", method = RequestMethod.GET)
+    public @ResponseBody List<Process> getProcesses(@PathVariable long vat) {
+
+        return processService.getProcessesByCompany(vat);
+    }
 }
-        
-        
-        
-        

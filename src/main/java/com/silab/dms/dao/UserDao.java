@@ -14,4 +14,6 @@ public interface UserDao {
     public List<User> retrieveAllUsersFromCompany(long vat);
 
     public void updateUser(User user);
+
+    public void deleteUser(User user);
 }
