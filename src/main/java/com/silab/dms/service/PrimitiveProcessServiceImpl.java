@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.silab.dms.dao.PrimitiveProcessDao;
 import com.silab.dms.model.PrimitiveProcess;
 
-@Service("primitiveProcess")
+@Service("primitiveProcessService")
 @Transactional
 public class PrimitiveProcessServiceImpl implements PrimitiveProcessService{
 

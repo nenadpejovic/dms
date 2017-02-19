@@ -10,4 +10,5 @@ public interface ComplexProcessDao {
 
 	public List<ComplexProcess> retrieveComplexProcesses();
 	public List<ComplexProcess> retrieveComplexProcessesByCompany(Company company);
+	
 }
