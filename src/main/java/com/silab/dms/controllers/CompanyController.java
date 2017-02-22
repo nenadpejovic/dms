@@ -24,9 +24,9 @@ public class CompanyController {
         company.setOfficeAddress(companyInfo.getOfficeLocationCity(), companyInfo.getOfficeLocationStreet(),
                 companyInfo.getOfficeLocationStreetNumber());
 
-        companyService.save(company);
+        Company savedCompany = companyService.save(company);
 
-        return company;
+        return savedCompany;
     }
 
 }

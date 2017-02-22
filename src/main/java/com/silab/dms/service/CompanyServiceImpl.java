@@ -22,8 +22,8 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public void save(Company company) {
-		companyDao.save(company);
+	public Company save(Company company) {
+		return companyDao.save(company);
 	}
 
 }

@@ -20,10 +20,18 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
+    	List<User> users = retrieveAllUsers();
+    	for(User u : users){
+    		if(u.getUsername().equals(user.getUsername())){
+    			return null;
+    		}
+    	}
         persist(user);
+        return user;
     }
 
+    
     @Override
     public User retrieveUser(User user) {
         Query query = getSession().createQuery("from User where username = :username and password = :password");

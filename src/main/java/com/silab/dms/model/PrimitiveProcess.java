@@ -19,6 +19,10 @@ public class PrimitiveProcess extends Process {
     @OneToMany(mappedBy = "activityId")
     private List<Activity> activities;
 
+    public PrimitiveProcess(){
+    	
+    }
+    
     public PrimitiveProcess(Company company, String processName, Process parentProcess, List<Activity> activities) {
         super(company, processName, parentProcess);
         this.activities = activities;

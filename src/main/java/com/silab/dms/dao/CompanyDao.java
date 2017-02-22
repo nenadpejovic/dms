@@ -8,5 +8,5 @@ public interface CompanyDao{
 	
 	public List<Company> retrieveAllCompanies();
 
-    void save(Company company);
+    Company save(Company company);
 }

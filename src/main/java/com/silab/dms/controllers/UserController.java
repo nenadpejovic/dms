@@ -1,5 +1,6 @@
 package com.silab.dms.controllers;
 
+import com.silab.dms.Utils.PasswordEncrypt;
 import com.silab.dms.Utils.Role;
 import com.silab.dms.controllers.dto.LoginInfo;
 import com.silab.dms.controllers.dto.SignupInfo;
@@ -23,12 +24,15 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    PasswordEncrypt passEncrypt;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody User login(@RequestBody LoginInfo loginInfo) {
         User user = new UserBuilder()
                 .setUsername(loginInfo.getUsername())
-                .setPassword(loginInfo.getPassword())
+                .setPassword(passEncrypt.encrypt(loginInfo.getPassword()))
                 .createUser();
 
         User userFromDatabase = userService.retrieveUser(user);
@@ -41,14 +45,14 @@ public class UserController {
         User user = new UserBuilder()
                 .setFirstName(signupInfo.getFirstName())
                 .setLastName(signupInfo.getLastName())
-                .setUsername(signupInfo.getUsername())
+                .setUsername(passEncrypt.encrypt(signupInfo.getUsername()))
                 .setPassword(signupInfo.getPassword())
                 .setRole(Role.ADMIN)
                 .createUser();
 
-        userService.save(user);
+        User savedUser = userService.save(user);
 
-        return user;
+        return savedUser;
     }
 
     @RequestMapping(value = "loadusers/{vat}", method = RequestMethod.GET)
@@ -59,6 +63,7 @@ public class UserController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public @ResponseBody User updateUser(@RequestBody User user) {
+    	user.setPassword(passEncrypt.encrypt(user.getPassword()));
         userService.updateUser(user);
         return user;
     }
@@ -66,6 +71,7 @@ public class UserController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody HttpStatus deleteUser(@RequestBody User user) {
         try {
+        	user.setPassword(passEncrypt.encrypt(user.getPassword()));
             userService.deleteUser(user);
             return HttpStatus.OK;
         }catch (Exception e) {

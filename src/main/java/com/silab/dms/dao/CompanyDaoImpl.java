@@ -18,8 +18,15 @@ public class CompanyDaoImpl extends AbstractDao<Integer, Company> implements Com
 	}
 
 	@Override
-	public void save(Company company) {
+	public Company save(Company company) {
+		List<Company> companies = retrieveAllCompanies();
+		for(Company c : companies){
+			if(c.getVat() == company.getVat()){
+				return null;
+			}
+		}
 		persist(company);
+		return company;
 	}
 
 }

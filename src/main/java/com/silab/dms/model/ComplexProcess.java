@@ -15,10 +15,14 @@ import java.util.Set;
 @Table(name = "complex_process")
 @DiscriminatorValue(value = "complex")
 public class ComplexProcess extends Process {
+	
     @OneToMany(mappedBy = "processId")
     @JsonManagedReference
     private Set<Process> childProcesses;
 
+    public ComplexProcess(){
+    	
+    }
     public ComplexProcess(Company company, String processName, Process parentProcess, Set<Process> childProcesses) {
         super(company, processName, parentProcess);
         this.childProcesses = childProcesses;
