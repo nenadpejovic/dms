@@ -6,13 +6,19 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.ordering.antlr.GeneratedOrderByFragmentRendererTokenTypes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.silab.dms.Utils.PasswordEncrypt;
 import com.silab.dms.model.User;
 
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
     @Override
     public List<User> retrieveAllUsers() {
         Criteria criteria = createEntityCriteria();
@@ -34,15 +40,20 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     
     @Override
     public User retrieveUser(User user) {
-        Query query = getSession().createQuery("from User where username = :username and password = :password");
+        Query query = getSession().createQuery("from User where username = :username");
         query.setParameter("username", user.getUsername());
-        query.setParameter("password", user.getPassword());
         List<User> users = query.list();
         if (users.size() != 0) {
-            return users.get(0);
+        	for(User u : users){
+        		if(passwordEncoder.matches(user.getPassword(), u.getPassword())){
+        			return u;
+        		}
+        		return null;
+        	}
         } else {
             return null;
         }
+        return null;
     }
 
     @Override

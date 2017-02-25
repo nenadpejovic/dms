@@ -32,7 +32,7 @@ public class UserController {
     public @ResponseBody User login(@RequestBody LoginInfo loginInfo) {
         User user = new UserBuilder()
                 .setUsername(loginInfo.getUsername())
-                .setPassword(passEncrypt.encrypt(loginInfo.getPassword()))
+                .setPassword(loginInfo.getPassword())
                 .createUser();
 
         User userFromDatabase = userService.retrieveUser(user);
@@ -45,8 +45,8 @@ public class UserController {
         User user = new UserBuilder()
                 .setFirstName(signupInfo.getFirstName())
                 .setLastName(signupInfo.getLastName())
-                .setUsername(passEncrypt.encrypt(signupInfo.getUsername()))
-                .setPassword(signupInfo.getPassword())
+                .setUsername(signupInfo.getUsername())
+                .setPassword(passEncrypt.encrypt(signupInfo.getPassword()))
                 .setRole(Role.ADMIN)
                 .createUser();
 
