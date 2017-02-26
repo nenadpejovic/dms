@@ -13,7 +13,7 @@ public class DocumentType {
     @Column(name = "id")
     private long documentTypeId;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String typeName;
 
     @Column(name = "description")
@@ -21,6 +21,13 @@ public class DocumentType {
 
     @Column(name = "modelPath")
     private String modelPath;
+
+    public DocumentType() {
+    }
+
+    public DocumentType(String modelPath) {
+        this.modelPath = modelPath;
+    }
 
     public DocumentType(String typeName, String description, String modelPath) {
         this.typeName = typeName;
