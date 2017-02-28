@@ -2,7 +2,10 @@ package com.silab.dms.controllers;
 
 import com.silab.dms.controllers.dto.CompanyInfo;
 import com.silab.dms.model.Company;
+import com.silab.dms.model.User;
 import com.silab.dms.service.CompanyService;
+import com.silab.dms.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ public class CompanyController {
 
     @Autowired
     CompanyService companyService;
+    
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public @ResponseBody Company registerCompany(@RequestBody CompanyInfo companyInfo) {
@@ -25,8 +31,8 @@ public class CompanyController {
                 companyInfo.getOfficeLocationStreetNumber());
 
         Company savedCompany = companyService.save(company);
-
+        userService.setCompanyForAdmin(savedCompany);
         return savedCompany;
     }
-
+    
 }

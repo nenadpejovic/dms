@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.silab.dms.model.Company;
 import com.silab.dms.model.User;
 
 
@@ -18,6 +19,8 @@ public interface UserService {
     public List<User> loadUsersFromCompany(long vat);
 
     public void updateUser(User user);
+    
+    public void setCompanyForAdmin(Company company);
 
     public void deleteUser(User user);
 }

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.silab.dms.Utils.PasswordEncrypt;
+import com.silab.dms.model.Company;
 import com.silab.dms.model.User;
 
 @Repository("userDao")
@@ -74,5 +75,15 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
     public void deleteUser(User user) {
         delete(user);
     }
+
+	@Override
+	public void setCompanyForAdmin(Company company) {
+		User user = company.getAdminUser();
+		user.setCompany(company);
+		getSession().update(user);
+		
+	}
+	
+	
 
 }

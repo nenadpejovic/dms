@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.silab.dms.dao.UserDao;
+import com.silab.dms.model.Company;
 import com.silab.dms.model.User;
 
 @Service("userService")
@@ -48,5 +49,10 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userDao.deleteUser(user);
     }
+
+	@Override
+	public void setCompanyForAdmin(Company company) {
+		userDao.setCompanyForAdmin(company);
+	}
 
 }

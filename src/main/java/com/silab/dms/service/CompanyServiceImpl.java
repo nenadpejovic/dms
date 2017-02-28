@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.silab.dms.dao.CompanyDao;
 import com.silab.dms.model.Company;
+import com.silab.dms.model.User;
 
 @Service("companyService")
 @Transactional
@@ -25,5 +26,7 @@ public class CompanyServiceImpl implements CompanyService{
 	public Company save(Company company) {
 		return companyDao.save(company);
 	}
+
+
 
 }
