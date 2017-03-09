@@ -9,4 +9,6 @@ public interface ProcessDao {
 	public List<Process> retrieveAllProcesses();
 
     public List<Process> retreiveProcessesByCompany(long vat);
+    
+    public void save(Process process);
 }

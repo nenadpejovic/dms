@@ -9,4 +9,6 @@ public interface ProcessService {
 	public List<Process> retrieveAllProcesses();
 
     public List<Process> getProcessesByCompany(long vat);
+    
+    public void save(Process p);
 }

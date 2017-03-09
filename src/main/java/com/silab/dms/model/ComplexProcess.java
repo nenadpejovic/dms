@@ -17,7 +17,6 @@ import java.util.Set;
 public class ComplexProcess extends Process {
 	
     @OneToMany(mappedBy = "processId")
-    @JsonManagedReference
     private Set<Process> childProcesses;
 
     public ComplexProcess(){

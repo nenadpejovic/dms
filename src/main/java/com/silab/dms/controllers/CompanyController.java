@@ -31,7 +31,9 @@ public class CompanyController {
                 companyInfo.getOfficeLocationStreetNumber());
 
         Company savedCompany = companyService.save(company);
-        userService.setCompanyForAdmin(savedCompany);
+        if(savedCompany != null){
+        	userService.setCompanyForAdmin(savedCompany);
+        }
         return savedCompany;
     }
     

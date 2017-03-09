@@ -26,4 +26,10 @@ public class ProcessServiceImpl implements ProcessService{
 		return processDao.retreiveProcessesByCompany(vat);
 	}
 
+	@Override
+	public void save(Process p) {
+		processDao.save(p);
+		
+	}
+
 }

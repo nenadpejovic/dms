@@ -28,7 +28,6 @@ public abstract class Process {
 
     @ManyToOne
     @JoinColumn(name = "parentId", referencedColumnName = "processId", nullable = true)
-    @JsonBackReference
     private Process parentProcess;
 
     public Process() {

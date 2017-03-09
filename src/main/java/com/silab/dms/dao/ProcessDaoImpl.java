@@ -29,12 +29,18 @@ public class ProcessDaoImpl extends AbstractDao<Integer, Process> implements Pro
 		persist(c1);
 		persist(primitiveProcess);
 		persist(p2);
-		Criteria criteria = getSession().createCriteria(Process.class, "process")
+		Criteria criteria = createEntityCriteria()
 				.createAlias("company", "c");
 
 		criteria.add(Restrictions.eq("c.vat", vat));
 
 		return criteria.list();
+	}
+
+	@Override
+	public void save(Process process) {
+		// TODO Auto-generated method stub
+	    persist(process);
 	}
 
 }
