@@ -25,17 +25,20 @@ public class DocumentTypeDaoImpl extends AbstractDao<Integer, DocumentType> impl
 
 	@Override
 	public DocumentType updateAfterInitialCreation(DocumentTypeDto documentTypeDto) {
-		Query query = getSession().createQuery("from DocumentType where modelPath = :modelPath");
-		query.setParameter("modelPath", "baza.sql");
-		List<DocumentType> types = query.list();
-		types.stream()
-				.findAny()
-				.ifPresent(dt -> {
-					dt.setDescription(documentTypeDto.getDocumentTypeDescription());
-					dt.setTypeName(documentTypeDto.getDocumentTypeName());
-					getSession().update(dt);
-				});
-		return null;
+		return retrieveDocumentTypes()
+				.stream()
+				.filter(dt -> dt.getModelPath().equalsIgnoreCase(documentTypeDto.getOriginalFilename()))
+				.findFirst()
+				.map(documentType -> fillDocumentTypeDataAndUpload(documentType, documentTypeDto))
+				.get();
+	}
+
+	private DocumentType fillDocumentTypeDataAndUpload(DocumentType documentType, DocumentTypeDto documentTypeDto) {
+		documentType.setDescription(documentTypeDto.getDocumentTypeDescription());
+		documentType.setTypeName(documentTypeDto.getDocumentTypeName());
+		documentType.setCompany(documentTypeDto.getCompany());
+		getSession().update(documentType);
+		return documentType;
 	}
 
 

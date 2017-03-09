@@ -27,24 +27,27 @@ public class DocumentsController {
 
     @RequestMapping(value = "fileUpload", method = RequestMethod.POST)
     public @ResponseBody DocumentType uploadDocumentType(HttpServletRequest request) throws IOException {
-        if(request instanceof MultipartHttpServletRequest) {
-            Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
-
-            MultipartFile multipartFile = ((MultipartHttpServletRequest)request).getFile(itr.next());
-            String fileName = multipartFile.getOriginalFilename();
-            File newFile = new File("../resources/documentModels/" + fileName);
-//            if(!newFile.exists()) {
-//                newFile.createNewFile();
-//            }
-            DocumentType documentType = new DocumentType(multipartFile.getOriginalFilename());
-            //multipartFile.transferTo(newFile);
+        if(!(request instanceof MultipartHttpServletRequest)) {
+            return null;
+        } else {
+            DocumentType documentType = saveNewDocumentTypeFile(request);
             documentTypeService.saveDocumentType(documentType);
             return documentType;
-        } else {
-            System.out.println("nije multipart");
         }
 
-        return null;
+    }
+
+    private DocumentType saveNewDocumentTypeFile(HttpServletRequest request) throws IOException {
+        Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
+
+        MultipartFile multipartFile = ((MultipartHttpServletRequest)request).getFile(itr.next());
+        String fileName = multipartFile.getOriginalFilename();
+        File newFile = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels", fileName);
+        if(!newFile.exists()) {
+            newFile.createNewFile();
+        }
+        multipartFile.transferTo(newFile);
+        return new DocumentType(multipartFile.getOriginalFilename());
     }
 
     @RequestMapping(value = "filedata", method = RequestMethod.POST)
