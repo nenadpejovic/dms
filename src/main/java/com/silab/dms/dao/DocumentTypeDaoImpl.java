@@ -35,7 +35,7 @@ public class DocumentTypeDaoImpl extends AbstractDao<Integer, DocumentType> impl
 	}
 
 	@Override
-	public Set<DocumentType> retrieveDocumentTypesForCompany(long vat) {
+	public Set<DocumentType> retrieveDocumentTypesForCompany(long vat) throws Exception {
 		return retrieveDocumentTypes()
 				.stream()
 				.filter(documentType -> documentType.getCompany().getVat() == vat)

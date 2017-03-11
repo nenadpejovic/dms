@@ -14,5 +14,5 @@ public interface DocumentTypeDao {
 
     public DocumentType updateAfterInitialCreation(DocumentTypeDto documentTypeDto);
 
-    public Set<DocumentType> retrieveDocumentTypesForCompany(long vat);
+    public Set<DocumentType> retrieveDocumentTypesForCompany(long vat) throws Exception;
 }

@@ -1,5 +1,6 @@
 package com.silab.dms.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,11 @@ public class DocumentTypeServiceImpl implements DocumentTypeService{
 
 	@Override
 	public Set<DocumentType> retrieveDocumentTypesForCompany(long vat) {
-		return documentTypeDao.retrieveDocumentTypesForCompany(vat);
+		try {
+			return documentTypeDao.retrieveDocumentTypesForCompany(vat);
+		} catch (Exception e) {
+			return Collections.emptySet();
+		}
 	}
 
 }
