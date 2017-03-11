@@ -1,6 +1,7 @@
 package com.silab.dms.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.silab.dms.controllers.dto.DocumentTypeDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class DocumentTypeServiceImpl implements DocumentTypeService{
 	public DocumentType updateAfterInitialCreation(DocumentTypeDto documentTypeDto) {
 		return documentTypeDao.updateAfterInitialCreation(documentTypeDto);
 
+	}
+
+	@Override
+	public Set<DocumentType> retrieveDocumentTypesForCompany(long vat) {
+		return documentTypeDao.retrieveDocumentTypesForCompany(vat);
 	}
 
 }
