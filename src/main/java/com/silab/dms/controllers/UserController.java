@@ -92,4 +92,11 @@ public class UserController {
         User savedUser = userService.save(newUser);
         return savedUser;
     }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public @ResponseBody User changePassword(@RequestBody User user) {
+        user.setPassword(passEncrypt.encrypt(user.getPassword()));
+        userService.updateUser(user);
+        return user;
+    }
 }
