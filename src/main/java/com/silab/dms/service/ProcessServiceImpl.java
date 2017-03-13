@@ -32,4 +32,9 @@ public class ProcessServiceImpl implements ProcessService{
 		
 	}
 
+	@Override
+	public void deleteProcess(Process process) {
+		processDao.deleteProcess(process);
+	}
+
 }

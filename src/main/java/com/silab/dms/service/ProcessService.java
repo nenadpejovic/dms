@@ -11,4 +11,6 @@ public interface ProcessService {
     public List<Process> getProcessesByCompany(long vat);
     
     public void save(Process p);
+    
+    public void deleteProcess(Process process);
 }

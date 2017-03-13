@@ -11,4 +11,6 @@ public interface ProcessDao {
     public List<Process> retreiveProcessesByCompany(long vat);
     
     public void save(Process process);
+    
+    public void deleteProcess(Process process);
 }

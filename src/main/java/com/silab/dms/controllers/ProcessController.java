@@ -6,6 +6,7 @@ import com.silab.dms.model.PrimitiveProcess;
 import com.silab.dms.model.Process;
 import com.silab.dms.service.ProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +29,21 @@ public class ProcessController {
         return processService.getProcessesByCompany(vat);
     }
     
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteProcess(@RequestBody Process process) {
+
+        processService.deleteProcess(process);
+    }
+    
     @RequestMapping(value = "/complex/add", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
     public void saveComplexProcess(@RequestBody ComplexProcess process) {
     	processService.save(process);
     }
     
     @RequestMapping(value = "/primitive/add", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
     public void savePrimitiveProcess(@RequestBody PrimitiveProcess process) {
         processService.save(process);
     }

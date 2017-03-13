@@ -43,4 +43,11 @@ public class ProcessDaoImpl extends AbstractDao<Integer, Process> implements Pro
 	    persist(process);
 	}
 
+	@Override
+	public void deleteProcess(Process process) {
+		delete(process);
+	}
+	
+	
+
 }

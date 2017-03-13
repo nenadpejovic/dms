@@ -1,6 +1,9 @@
 package com.silab.dms.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +16,13 @@ import java.util.Set;
 @Table(name = "process")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="processType",discriminatorType=DiscriminatorType.STRING)
+@JsonTypeInfo(
+	    use = JsonTypeInfo.Id.NAME,
+	    include = JsonTypeInfo.As.PROPERTY,
+	    property = "type")
+	@JsonSubTypes({
+	    @Type(value = ComplexProcess.class, name = "ComplexProcess"),
+	    @Type(value = PrimitiveProcess.class, name = "PrimitiveProcess")})
 public abstract class Process {
     @Id
     @GeneratedValue

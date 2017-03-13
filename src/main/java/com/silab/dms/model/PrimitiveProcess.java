@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by msav on 1/29/2017.
@@ -17,22 +18,22 @@ import java.util.List;
 public class PrimitiveProcess extends Process {
 
     @OneToMany(mappedBy = "activityId")
-    private List<Activity> activities;
+    private Set<Activity> activities;
 
     public PrimitiveProcess(){
     	
     }
     
-    public PrimitiveProcess(Company company, String processName, Process parentProcess, List<Activity> activities) {
+    public PrimitiveProcess(Company company, String processName, Process parentProcess, Set<Activity> activities) {
         super(company, processName, parentProcess);
         this.activities = activities;
     }
 
-    public List<Activity> getActivities() {
+    public Set<Activity> getActivities() {
         return activities;
     }
 
-    public void setActivities(List<Activity> activities) {
+    public void setActivities(Set<Activity> activities) {
         this.activities = activities;
     }
 }

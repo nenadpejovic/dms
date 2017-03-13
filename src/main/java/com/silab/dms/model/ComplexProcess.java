@@ -1,7 +1,9 @@
 package com.silab.dms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -16,7 +18,7 @@ import java.util.Set;
 @DiscriminatorValue(value = "complex")
 public class ComplexProcess extends Process {
 	
-    @OneToMany(mappedBy = "processId")
+    @OneToMany(mappedBy = "processId", cascade = CascadeType.REMOVE)
     private Set<Process> childProcesses;
 
     public ComplexProcess(){
@@ -27,6 +29,7 @@ public class ComplexProcess extends Process {
         this.childProcesses = childProcesses;
     }
 
+    @JsonIgnore
     public Set<Process> getChildProcesses() {
         return childProcesses;
     }
