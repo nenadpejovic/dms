@@ -1,22 +1,26 @@
 package com.silab.dms.controllers.dto;
 
+import com.silab.dms.model.Company;
+
 /**
  * Created by msav on 2/26/2017.
  */
 public class DocumentTypeDto {
-    private long documentTypeid;
+    private String originalFilename;
     private String documentTypeName;
     private String documentTypeDescription;
+    private Company company;
 
     public DocumentTypeDto() {
     }
 
-    public long getDocumentTypeid() {
-        return documentTypeid;
+
+    public String getOriginalFilename() {
+        return originalFilename;
     }
 
-    public void setDocumentTypeid(long documentTypeid) {
-        this.documentTypeid = documentTypeid;
+    public void setOriginalFilename(String originalFilename) {
+        this.originalFilename = originalFilename;
     }
 
     public String getDocumentTypeName() {
@@ -33,6 +37,14 @@ public class DocumentTypeDto {
 
     public void setDocumentTypeDescription(String documentTypeDescription) {
         this.documentTypeDescription = documentTypeDescription;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
 

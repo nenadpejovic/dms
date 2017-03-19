@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Iterator;
+
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by msav on 2/26/2017.
@@ -31,26 +33,33 @@ public class DocumentsController {
     @Autowired
     DocumentService documentService;
 
-    @RequestMapping(value = "fileUpload", method = RequestMethod.POST)
-    public @ResponseBody DocumentType uploadDocumentType(HttpServletRequest request) throws IOException {
-        if(request instanceof MultipartHttpServletRequest) {
-            Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
-
-            MultipartFile multipartFile = ((MultipartHttpServletRequest)request).getFile(itr.next());
-            String fileName = multipartFile.getOriginalFilename();
-            File newFile = new File("../resources/documentModels/" + fileName);
-//            if(!newFile.exists()) {
-//                newFile.createNewFile();
-//            }
-            DocumentType documentType = new DocumentType(multipartFile.getOriginalFilename());
-            //multipartFile.transferTo(newFile);
+    @RequestMapping(value = "fileUpload/{vat}", method = RequestMethod.POST)
+    public @ResponseBody DocumentType uploadDocumentType(HttpServletRequest request, @PathVariable long vat) throws IOException {
+        if(!(request instanceof MultipartHttpServletRequest)) {
+            return null;
+        } else {
+            DocumentType documentType = saveNewDocumentTypeFile(request, vat);
             documentTypeService.saveDocumentType(documentType);
             return documentType;
-        } else {
-            System.out.println("nije multipart");
         }
 
-        return null;
+    }
+
+    private DocumentType saveNewDocumentTypeFile(HttpServletRequest request, long vat) throws IOException {
+        Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
+
+        MultipartFile multipartFile = ((MultipartHttpServletRequest)request).getFile(itr.next());
+        String fileName = multipartFile.getOriginalFilename();
+        File destiationDirectory = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels\\", String.valueOf(vat));
+        if(!destiationDirectory.exists()) {
+            destiationDirectory.mkdir();
+        }
+        File documentTypeFile = new File(destiationDirectory.getPath(), fileName);
+        if(!documentTypeFile.exists()) {
+            documentTypeFile.createNewFile();
+        }
+        multipartFile.transferTo(documentTypeFile);
+        return new DocumentType(multipartFile.getOriginalFilename());
     }
 
     @RequestMapping(value = "filedata", method = RequestMethod.POST)
@@ -64,5 +73,10 @@ public class DocumentsController {
         List<Document> documents = documentService.retrieveDocumentsByCompany(vat);
         
         return documents;
+
+    }
+    @RequestMapping(value = "getDocumentTypes/{vat}", method = RequestMethod.GET)
+    public @ResponseBody Set<DocumentType> getDocumentTypesForCompany(@PathVariable long vat) {
+        return documentTypeService.retrieveDocumentTypesForCompany(vat);
     }
 }
