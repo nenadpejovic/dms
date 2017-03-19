@@ -35,6 +35,7 @@ public class ProcessDaoImpl extends AbstractDao<Integer, Process> implements Pro
 		criteria.add(Restrictions.eq("c.vat", vat));
 
 		return criteria.list();
+		
 	}
 
 	@Override

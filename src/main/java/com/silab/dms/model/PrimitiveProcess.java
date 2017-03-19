@@ -1,11 +1,14 @@
 package com.silab.dms.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,23 +20,25 @@ import java.util.Set;
 @DiscriminatorValue(value = "primitive")
 public class PrimitiveProcess extends Process {
 
-    @OneToMany(mappedBy = "activityId")
-    private Set<Activity> activities;
 
+    @OneToMany(mappedBy = "process", cascade = CascadeType.REMOVE)
+    private List<Activity> activities;
+	
     public PrimitiveProcess(){
     	
     }
     
-    public PrimitiveProcess(Company company, String processName, Process parentProcess, Set<Activity> activities) {
+    public PrimitiveProcess(Company company, String processName, Process parentProcess, List<Activity> activities) {
         super(company, processName, parentProcess);
         this.activities = activities;
     }
 
-    public Set<Activity> getActivities() {
-        return activities;
-    }
+    public List<Activity> getActivities() {
+		return activities;
+	}
 
-    public void setActivities(Set<Activity> activities) {
-        this.activities = activities;
-    }
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
+	}
+
 }

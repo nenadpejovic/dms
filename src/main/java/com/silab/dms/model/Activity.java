@@ -1,6 +1,9 @@
 package com.silab.dms.model;
 
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Range;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -16,19 +19,21 @@ public class Activity {
     private long activityId;
 
     @ManyToOne
-    @JoinColumn(name = "processId", referencedColumnName = "processId", nullable = false)
+    @JoinColumn(name = "processId",referencedColumnName="processId", nullable = false)
+    @JsonIgnore
     private PrimitiveProcess process;
 
     @Column(name = "activityName")
-    @Range(min = 3, max = 50)
     private String activityName;
 
     @ManyToOne
-    @JoinColumn(name = "documentId", referencedColumnName = "documentId", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "inputDocumentId", referencedColumnName = "documentId", nullable = false, insertable = true, updatable = true)
+    @JsonIgnore
     private Document inputDocument;
 
     @ManyToOne
-    @JoinColumn(name = "documentId", referencedColumnName = "documentId", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "outputDocumentId", referencedColumnName = "documentId", nullable = false, insertable = true, updatable = true)
+    @JsonIgnore
     private Document outputDocument;
 
     public Activity(PrimitiveProcess process, String activityName, Document inputDocument, Document outputDocument) {
@@ -89,12 +94,16 @@ public class Activity {
     @Override
     public int hashCode() {
         int result = (int) (getActivityId() ^ (getActivityId() >>> 32));
-        result = 31 * result + getProcess().hashCode();
+        result = 31 * result;
         return result;
     }
 
     @Override
     public String toString() {
         return activityName;
+    }
+    
+    public Activity(){
+    	
     }
 }

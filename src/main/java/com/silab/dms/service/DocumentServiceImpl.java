@@ -27,5 +27,10 @@ public class DocumentServiceImpl implements DocumentService{
     public List<Document> retrieveAllDocuments() {
         return documentDao.retrieveAllDocuments();
     }
+
+	@Override
+	public List<Document> retrieveDocumentsByCompany(long vat) {
+		return documentDao.retrieveDocumentsByCompany(vat);
+	}
     
 }

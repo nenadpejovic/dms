@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Where;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -40,16 +44,20 @@ public abstract class Process {
     @JoinColumn(name = "parentId", referencedColumnName = "processId", nullable = true)
     private Process parentProcess;
 
-    public Process() {
+	public void setProcessId(long processId) {
+		this.processId = processId;
+	}
+
+	public Process() {
     }
 
     public Process(Company company, String processName, Process parentProcess) {
-        this.company = company;
+    	this.company = company;
         this.processName = processName;
         this.parentProcess = parentProcess;
     }
 
-    public long getProcessId() {
+	public long getProcessId() {
         return processId;
     }
 

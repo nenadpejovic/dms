@@ -1,9 +1,11 @@
 package com.silab.dms.controllers;
 
 import com.silab.dms.dao.PrimitiveProcessDao;
+import com.silab.dms.model.Activity;
 import com.silab.dms.model.ComplexProcess;
 import com.silab.dms.model.PrimitiveProcess;
 import com.silab.dms.model.Process;
+import com.silab.dms.service.ActivityService;
 import com.silab.dms.service.ProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +25,23 @@ public class ProcessController {
     @Autowired
     ProcessService processService;
 
+    @Autowired
+    ActivityService activityService;
+
     @RequestMapping(value = "/{vat}", method = RequestMethod.GET)
     public @ResponseBody List<Process> getProcesses(@PathVariable long vat) {
 
-        return processService.getProcessesByCompany(vat);
+        List<Process> processes = processService.getProcessesByCompany(vat);
+        
+        for(Process process : processes){
+        	if(process instanceof PrimitiveProcess){
+        		PrimitiveProcess primitiveProcess = (PrimitiveProcess)process;
+        		primitiveProcess.setActivities(activityService.retrieveActivitiesByProcess(primitiveProcess.getProcessId()));
+        	}
+        }
+        
+        
+        return processes;
     }
     
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

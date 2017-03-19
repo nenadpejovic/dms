@@ -15,5 +15,6 @@ import java.util.List;
 public interface DocumentDao {
       
     List<Document> retrieveAllDocuments();
+    List<Document> retrieveDocumentsByCompany(long vat);
 
 }

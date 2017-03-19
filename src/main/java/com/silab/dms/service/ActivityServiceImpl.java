@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.silab.dms.dao.ActivityDao;
 import com.silab.dms.model.Activity;
+import com.silab.dms.model.PrimitiveProcess;
 
 @Service("activityService")
 @Transactional
@@ -20,5 +21,24 @@ public class ActivityServiceImpl implements ActivityService{
 	public List<Activity> retrieveAllActivities() {
 		return activityDao.retrieveAllActivities();
 	}
+
+	@Override
+	public List<Activity> retrieveActivitiesByProcess(long processId) {
+		// TODO Auto-generated method stub
+		return activityDao.retrieveActivitiesByProcess(processId);
+	}
+
+	@Override
+	public void save(Activity activity) {
+		activityDao.save(activity);
+		
+	}
+	
+	@Override
+	public void delete(Activity activity) {
+		activityDao.delete(activity);
+		
+	}
+
 
 }

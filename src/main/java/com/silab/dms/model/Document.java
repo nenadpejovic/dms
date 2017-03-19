@@ -91,6 +91,10 @@ public class Document {
     public String toString() {
         return name;
     }
+    
+    public Document(){
+    	
+    }
 
 
 }
