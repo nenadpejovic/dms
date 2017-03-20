@@ -22,13 +22,13 @@ public class ProcessDaoImpl extends AbstractDao<Integer, Process> implements Pro
 
 	@Override
 	public List<Process> retreiveProcessesByCompany(long vat) {
-		Company company = companyDao.retrieveAllCompanies().get(0);
-		Process c1 = new ComplexProcess(company, "p1", null, null);
-		Process primitiveProcess = new PrimitiveProcess(company, "p2", c1, null);
-		Process p2 = new PrimitiveProcess(company, "p3", c1, null);
-		persist(c1);
-		persist(primitiveProcess);
-		persist(p2);
+		//Company company = companyDao.retrieveAllCompanies().get(0);
+//		Process c1 = new ComplexProcess(company, "p1", null, null);
+//		Process primitiveProcess = new PrimitiveProcess(company, "p2", c1, null);
+//		Process p2 = new PrimitiveProcess(company, "p3", c1, null);
+//		persist(c1);
+//		persist(primitiveProcess);
+//		persist(p2);
 		Criteria criteria = createEntityCriteria()
 				.createAlias("company", "c");
 

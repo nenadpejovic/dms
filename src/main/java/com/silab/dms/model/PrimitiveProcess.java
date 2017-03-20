@@ -1,11 +1,8 @@
 package com.silab.dms.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Where;
 
 import java.util.HashSet;
@@ -18,10 +15,11 @@ import java.util.Set;
 @Entity
 @Table(name = "primitive_process")
 @DiscriminatorValue(value = "primitive")
+@Proxy(lazy = false)
 public class PrimitiveProcess extends Process {
 
 
-    @OneToMany(mappedBy = "process", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "process", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Activity> activities;
 	
     public PrimitiveProcess(){

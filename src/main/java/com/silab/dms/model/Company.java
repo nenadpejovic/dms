@@ -25,7 +25,7 @@ public class Company {
     @Column(name = "vat", unique = true)
     private long vat;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private User adminUser;
 

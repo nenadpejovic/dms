@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.Where;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Table(name = "process")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="processType",discriminatorType=DiscriminatorType.STRING)
+@Proxy(lazy = false)
 @JsonTypeInfo(
 	    use = JsonTypeInfo.Id.NAME,
 	    include = JsonTypeInfo.As.PROPERTY,

@@ -1,9 +1,7 @@
 package com.silab.dms.model;
 
-import org.hibernate.annotations.Where;
-import org.hibernate.validator.constraints.Range;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 
@@ -12,6 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "activity")
+@Proxy(lazy = false)
 public class Activity {
     @Id
     @GeneratedValue
@@ -27,20 +26,20 @@ public class Activity {
     private String activityName;
 
     @ManyToOne
-    @JoinColumn(name = "inputDocumentId", referencedColumnName = "documentId", nullable = false, insertable = true, updatable = true)
+    @JoinColumn(name = "inputDocumentTypeId", referencedColumnName = "id", nullable = false, insertable = true, updatable = true)
     @JsonIgnore
-    private Document inputDocument;
+    private DocumentType inputDocumentType;
 
     @ManyToOne
-    @JoinColumn(name = "outputDocumentId", referencedColumnName = "documentId", nullable = false, insertable = true, updatable = true)
+    @JoinColumn(name = "outputDocumentTypeId", referencedColumnName = "id", nullable = false, insertable = true, updatable = true)
     @JsonIgnore
-    private Document outputDocument;
+    private DocumentType outputDocumentType;
 
-    public Activity(PrimitiveProcess process, String activityName, Document inputDocument, Document outputDocument) {
+    public Activity(PrimitiveProcess process, String activityName, DocumentType inputDocumentType, DocumentType outputDocumentType) {
         this.process = process;
         this.activityName = activityName;
-        this.inputDocument = inputDocument;
-        this.outputDocument = outputDocument;
+        this.inputDocumentType = inputDocumentType;
+        this.outputDocumentType = outputDocumentType;
     }
 
     public long getActivityId() {
@@ -63,20 +62,20 @@ public class Activity {
         this.activityName = activityName;
     }
 
-    public Document getInputDocument() {
-        return inputDocument;
+    public DocumentType getInputDocumentType() {
+        return inputDocumentType;
     }
 
-    public void setInputDocument(Document inputDocument) {
-        this.inputDocument = inputDocument;
+    public void setInputDocumentType(DocumentType inputDocumentType) {
+        this.inputDocumentType = inputDocumentType;
     }
 
-    public Document getOutputDocument() {
-        return outputDocument;
+    public DocumentType getOutputDocumentType() {
+        return outputDocumentType;
     }
 
-    public void setOutputDocument(Document outputDocument) {
-        this.outputDocument = outputDocument;
+    public void setOutputDocumentType(DocumentType outputDocumentType) {
+        this.outputDocumentType = outputDocumentType;
     }
 
     @Override
