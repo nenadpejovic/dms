@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,22 +18,22 @@ import java.util.Set;
 public class ComplexProcess extends Process {
 	
     @OneToMany(mappedBy = "processId", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private Set<Process> childProcesses;
+    private List<Process> childProcesses;
 
     public ComplexProcess(){
     	
     }
-    public ComplexProcess(Company company, String processName, Process parentProcess, Set<Process> childProcesses) {
+    public ComplexProcess(Company company, String processName, Process parentProcess, List<Process> childProcesses) {
         super(company, processName, parentProcess);
         this.childProcesses = childProcesses;
     }
 
     @JsonIgnore
-    public Set<Process> getChildProcesses() {
+    public List<Process> getChildProcesses() {
         return childProcesses;
     }
 
-    public void setChildProcesses(Set<Process> childProcesses) {
+    public void setChildProcesses(List<Process> childProcesses) {
         this.childProcesses = childProcesses;
     }
 }

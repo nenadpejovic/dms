@@ -27,12 +27,10 @@ public class Activity {
 
     @ManyToOne
     @JoinColumn(name = "inputDocumentTypeId", referencedColumnName = "id", nullable = false, insertable = true, updatable = true)
-    @JsonIgnore
     private DocumentType inputDocumentType;
 
     @ManyToOne
     @JoinColumn(name = "outputDocumentTypeId", referencedColumnName = "id", nullable = false, insertable = true, updatable = true)
-    @JsonIgnore
     private DocumentType outputDocumentType;
 
     public Activity(PrimitiveProcess process, String activityName, DocumentType inputDocumentType, DocumentType outputDocumentType) {

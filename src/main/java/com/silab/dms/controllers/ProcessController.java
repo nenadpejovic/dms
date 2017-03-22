@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by msav on 2/18/2017.
@@ -33,14 +33,6 @@ public class ProcessController {
 
         List<Process> processes = processService.getProcessesByCompany(vat);
         
-        for(Process process : processes){
-        	if(process instanceof PrimitiveProcess){
-        		PrimitiveProcess primitiveProcess = (PrimitiveProcess)process;
-        		primitiveProcess.setActivities(activityService.retrieveActivitiesByProcess(primitiveProcess.getProcessId()));
-        	}
-        }
-        
-        
         return processes;
     }
     
@@ -54,12 +46,26 @@ public class ProcessController {
     @RequestMapping(value = "/complex/add", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void saveComplexProcess(@RequestBody ComplexProcess process) {
+        updateParentProcess(process);
     	processService.save(process);
     }
     
     @RequestMapping(value = "/primitive/add", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void savePrimitiveProcess(@RequestBody PrimitiveProcess process) {
+        updateParentProcess(process);
         processService.save(process);
+    }
+
+    private void updateParentProcess(@RequestBody Process process) {
+        if(process.getParentProcess() != null) {
+            ComplexProcess parentProcess = (ComplexProcess) process.getParentProcess();
+            if(parentProcess.getChildProcesses() == null) {
+                parentProcess.setChildProcesses(new LinkedList<>());
+            }
+            parentProcess.getChildProcesses().add(process);
+
+            processService.update(parentProcess);
+        }
     }
 }

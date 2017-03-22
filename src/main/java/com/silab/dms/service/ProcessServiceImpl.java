@@ -2,6 +2,7 @@ package com.silab.dms.service;
 
 import java.util.List;
 
+import com.silab.dms.model.ComplexProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,11 @@ public class ProcessServiceImpl implements ProcessService{
 	@Override
 	public void deleteProcess(Process process) {
 		processDao.deleteProcess(process);
+	}
+
+	@Override
+	public void update(ComplexProcess parentProcess) {
+		processDao.update(parentProcess);
 	}
 
 }
