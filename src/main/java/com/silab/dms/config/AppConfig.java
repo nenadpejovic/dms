@@ -7,6 +7,7 @@ package com.silab.dms.config;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         ObjectMapper mapper = new ObjectMapper();
         //Registering Hibernate4Module to support lazy objects
         mapper.registerModule(new Hibernate4Module());
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
         messageConverter.setObjectMapper(mapper);
         return messageConverter;

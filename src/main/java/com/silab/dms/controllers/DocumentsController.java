@@ -1,20 +1,23 @@
 package com.silab.dms.controllers;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silab.dms.controllers.dto.DocumentTypeDto;
-import com.silab.dms.model.Document;
-import com.silab.dms.model.DocumentType;
-import com.silab.dms.model.PrimitiveProcess;
+import com.silab.dms.model.*;
 import com.silab.dms.model.Process;
 import com.silab.dms.service.DocumentService;
 import com.silab.dms.service.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.Set;
  */
 @CrossOrigin
 @Controller
+@JsonSerialize
 @RequestMapping("/document")
 public class DocumentsController {
     @Autowired
@@ -32,6 +36,7 @@ public class DocumentsController {
     
     @Autowired
     DocumentService documentService;
+    private final String APPLICATION_PDF = "application/pdf";
 
     @RequestMapping(value = "fileUpload/{vat}", method = RequestMethod.POST)
     public @ResponseBody DocumentType uploadDocumentType(HttpServletRequest request, @PathVariable long vat) throws IOException {
@@ -43,6 +48,26 @@ public class DocumentsController {
             return documentType;
         }
 
+    }
+
+    @RequestMapping(value = "fileDownload", method = RequestMethod.POST)
+    public @ResponseBody Resource downloadDocument(@RequestBody Activity activity) {
+        try {
+            File file = getFile(activity);
+            return new FileSystemResource(file);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    private File getFile(Activity activity) throws FileNotFoundException {
+        String vat = String.valueOf(activity.getInputDocumentType().getCompany().getVat());
+        File companyFolder = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels\\", vat);
+        File documentForDownload = Arrays.stream(companyFolder.listFiles())
+                .filter(file -> file.getName().equals(activity.getInputDocumentType().getModelPath()))
+                .findFirst()
+                .orElseThrow(() -> new FileNotFoundException("File not found"));
+        return documentForDownload;
     }
 
     private DocumentType saveNewDocumentTypeFile(HttpServletRequest request, long vat) throws IOException {
