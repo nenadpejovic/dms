@@ -32,5 +32,10 @@ public class DocumentServiceImpl implements DocumentService{
 	public List<Document> retrieveDocumentsByCompany(long vat) {
 		return documentDao.retrieveDocumentsByCompany(vat);
 	}
-    
+
+    @Override
+    public void saveDocument(Document document) {
+        documentDao.saveDocument(document);
+    }
+
 }

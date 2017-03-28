@@ -17,4 +17,5 @@ public interface DocumentDao {
     List<Document> retrieveAllDocuments();
     List<Document> retrieveDocumentsByCompany(long vat);
 
+    void saveDocument(Document document);
 }

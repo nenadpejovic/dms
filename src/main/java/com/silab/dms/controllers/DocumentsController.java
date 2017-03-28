@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silab.dms.controllers.dto.DocumentTypeDto;
 import com.silab.dms.model.*;
 import com.silab.dms.model.Process;
+import com.silab.dms.service.CompanyService;
 import com.silab.dms.service.DocumentService;
 import com.silab.dms.service.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,20 @@ import java.util.Set;
 public class DocumentsController {
     @Autowired
     DocumentTypeService documentTypeService;
-    
+
     @Autowired
     DocumentService documentService;
+
+    @Autowired
+    CompanyService companyService;
+
     private final String APPLICATION_PDF = "application/pdf";
 
     @RequestMapping(value = "fileUpload/{vat}", method = RequestMethod.POST)
-    public @ResponseBody DocumentType uploadDocumentType(HttpServletRequest request, @PathVariable long vat) throws IOException {
-        if(!(request instanceof MultipartHttpServletRequest)) {
+    public
+    @ResponseBody
+    DocumentType uploadDocumentType(HttpServletRequest request, @PathVariable long vat) throws IOException {
+        if (!(request instanceof MultipartHttpServletRequest)) {
             return null;
         } else {
             DocumentType documentType = saveNewDocumentTypeFile(request, vat);
@@ -50,10 +57,48 @@ public class DocumentsController {
 
     }
 
+    @RequestMapping(value = "upload/{vat}/{id}", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Document uploadDocument(HttpServletRequest request, @PathVariable long vat, @PathVariable long id) throws IOException {
+        if (!(request instanceof MultipartHttpServletRequest)) {
+            return null;
+        } else {
+            Document document = saveNewDocumentFile(request, vat, id);
+            documentService.saveDocument(document);
+            return document;
+        }
+
+    }
+
+    private Document saveNewDocumentFile(HttpServletRequest request, long vat, long id) throws IOException {
+        Iterator<String> itr = ((MultipartHttpServletRequest) request).getFileNames();
+
+        MultipartFile multipartFile = ((MultipartHttpServletRequest) request).getFile(itr.next());
+        String fileName = multipartFile.getOriginalFilename();
+        File destiationDirectory = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documents\\", String.valueOf(vat));
+        if (!destiationDirectory.exists()) {
+            destiationDirectory.mkdir();
+        }
+        File file = new File(destiationDirectory.getPath(), fileName);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        multipartFile.transferTo(file);
+        Company company = companyService.retrieveAllCompanies().stream().filter(c -> c.getVat() == vat).findFirst().get();
+        DocumentType documentType = documentTypeService.retrieveDocumentTypesForCompany(vat).stream().filter(type -> type.getDocumentTypeId() == id).findFirst().get();
+        return new Document(fileName, company, fileName, documentType);
+    }
+
     @RequestMapping(value = "fileDownload", method = RequestMethod.POST)
-    public @ResponseBody Resource downloadDocument(@RequestBody Activity activity) {
+    public
+    @ResponseBody
+    Resource downloadDocument(@RequestBody Activity activity, HttpServletResponse response) {
         try {
             File file = getFile(activity);
+            response.setContentType(APPLICATION_PDF);
+            response.setHeader("Content-Disposition", "inline; filename=" + file.getName());
+            response.setHeader("Content-Length", String.valueOf(file.length()));
             return new FileSystemResource(file);
         } catch (FileNotFoundException e) {
             return null;
@@ -71,16 +116,16 @@ public class DocumentsController {
     }
 
     private DocumentType saveNewDocumentTypeFile(HttpServletRequest request, long vat) throws IOException {
-        Iterator<String> itr = ((MultipartHttpServletRequest)request).getFileNames();
+        Iterator<String> itr = ((MultipartHttpServletRequest) request).getFileNames();
 
-        MultipartFile multipartFile = ((MultipartHttpServletRequest)request).getFile(itr.next());
+        MultipartFile multipartFile = ((MultipartHttpServletRequest) request).getFile(itr.next());
         String fileName = multipartFile.getOriginalFilename();
         File destiationDirectory = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels\\", String.valueOf(vat));
-        if(!destiationDirectory.exists()) {
+        if (!destiationDirectory.exists()) {
             destiationDirectory.mkdir();
         }
         File documentTypeFile = new File(destiationDirectory.getPath(), fileName);
-        if(!documentTypeFile.exists()) {
+        if (!documentTypeFile.exists()) {
             documentTypeFile.createNewFile();
         }
         multipartFile.transferTo(documentTypeFile);
@@ -88,20 +133,27 @@ public class DocumentsController {
     }
 
     @RequestMapping(value = "filedata", method = RequestMethod.POST)
-    public @ResponseBody DocumentType updateDocumentTypeAfterInitialCreation(@RequestBody DocumentTypeDto documentTypeDto) {
+    public
+    @ResponseBody
+    DocumentType updateDocumentTypeAfterInitialCreation(@RequestBody DocumentTypeDto documentTypeDto) {
         return documentTypeService.updateAfterInitialCreation(documentTypeDto);
     }
-    
+
     @RequestMapping(value = "/{vat}", method = RequestMethod.GET)
-    public @ResponseBody List<Document> getDocuments(@PathVariable long vat) {
+    public
+    @ResponseBody
+    List<Document> getDocuments(@PathVariable long vat) {
 
         List<Document> documents = documentService.retrieveDocumentsByCompany(vat);
-        
+
         return documents;
 
     }
+
     @RequestMapping(value = "getDocumentTypes/{vat}", method = RequestMethod.GET)
-    public @ResponseBody Set<DocumentType> getDocumentTypesForCompany(@PathVariable long vat) {
+    public
+    @ResponseBody
+    Set<DocumentType> getDocumentTypesForCompany(@PathVariable long vat) {
         return documentTypeService.retrieveDocumentTypesForCompany(vat);
     }
 }

@@ -33,5 +33,10 @@ public class DocumentDaoImpl extends AbstractDao<Integer, Document> implements D
 
 		return criteria.list();
 	}
-    
+
+	@Override
+	public void saveDocument(Document document) {
+		persist(document);
+	}
+
 }

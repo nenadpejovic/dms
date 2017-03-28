@@ -15,4 +15,6 @@ import java.util.List;
 public interface DocumentService {
     List<Document> retrieveAllDocuments();
     List<Document> retrieveDocumentsByCompany(long vat);
+
+    void saveDocument(Document document);
 }

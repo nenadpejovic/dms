@@ -30,13 +30,21 @@ public class Document {
     @JoinColumn(name = "companyId", referencedColumnName="companyId", nullable = false)
     private Company company;
 
+    @Column(name = "modelPath")
+    private String modelPath;
+
     @ManyToOne
     @JoinColumn(name = "documentTypeId", referencedColumnName="id", nullable = false)
     private DocumentType documentType;
 
-    public Document(String name, Company company, DocumentType documentType) {
+    public Document(String modelPath) {
+        this.modelPath = modelPath;
+    }
+
+    public Document(String name, Company company, String modelPath, DocumentType documentType) {
         this.name = name;
         this.company = company;
+        this.modelPath = modelPath;
         this.documentType = documentType;
     }
 
@@ -66,6 +74,14 @@ public class Document {
 
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
+    }
+
+    public String getModelPath() {
+        return modelPath;
+    }
+
+    public void setModelPath(String modelPath) {
+        this.modelPath = modelPath;
     }
 
     @Override
