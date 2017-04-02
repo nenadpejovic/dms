@@ -7,6 +7,7 @@ import com.silab.dms.model.Process;
 import com.silab.dms.service.CompanyService;
 import com.silab.dms.service.DocumentService;
 import com.silab.dms.service.DocumentTypeService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -34,7 +35,6 @@ import java.util.Set;
 public class DocumentsController {
     @Autowired
     DocumentTypeService documentTypeService;
-
     @Autowired
     DocumentService documentService;
 
@@ -42,6 +42,8 @@ public class DocumentsController {
     CompanyService companyService;
 
     private final String APPLICATION_PDF = "application/pdf";
+    private final String DOCUMENTS_PATH = "C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documents\\";
+    private String DOCUMENT_MODELS_PATH = "C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels\\";
 
     @RequestMapping(value = "fileUpload/{vat}", method = RequestMethod.POST)
     public
@@ -76,7 +78,7 @@ public class DocumentsController {
 
         MultipartFile multipartFile = ((MultipartHttpServletRequest) request).getFile(itr.next());
         String fileName = multipartFile.getOriginalFilename();
-        File destiationDirectory = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documents\\", String.valueOf(vat));
+        File destiationDirectory = new File(DOCUMENTS_PATH, String.valueOf(vat));
         if (!destiationDirectory.exists()) {
             destiationDirectory.mkdir();
         }
@@ -93,21 +95,23 @@ public class DocumentsController {
     @RequestMapping(value = "fileDownload", method = RequestMethod.POST)
     public
     @ResponseBody
-    Resource downloadDocument(@RequestBody Activity activity, HttpServletResponse response) {
+    void downloadDocument(@RequestBody Activity activity, HttpServletResponse response) {
         try {
             File file = getFile(activity);
-            response.setContentType(APPLICATION_PDF);
-            response.setHeader("Content-Disposition", "inline; filename=" + file.getName());
-            response.setHeader("Content-Length", String.valueOf(file.length()));
-            return new FileSystemResource(file);
+            InputStream is = new FileInputStream(file);
+            IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+//            return new FileSystemResource(file);
         } catch (FileNotFoundException e) {
-            return null;
+//            return null;
+        } catch (IOException e) {
+//            return null;
         }
     }
 
     private File getFile(Activity activity) throws FileNotFoundException {
         String vat = String.valueOf(activity.getInputDocumentType().getCompany().getVat());
-        File companyFolder = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels\\", vat);
+        File companyFolder = new File(DOCUMENT_MODELS_PATH, vat);
         File documentForDownload = Arrays.stream(companyFolder.listFiles())
                 .filter(file -> file.getName().equals(activity.getInputDocumentType().getModelPath()))
                 .findFirst()
@@ -120,7 +124,7 @@ public class DocumentsController {
 
         MultipartFile multipartFile = ((MultipartHttpServletRequest) request).getFile(itr.next());
         String fileName = multipartFile.getOriginalFilename();
-        File destiationDirectory = new File("C:\\dev\\projects\\fon\\dms\\dms\\src\\main\\resources\\documentModels\\", String.valueOf(vat));
+        File destiationDirectory = new File(DOCUMENT_MODELS_PATH, String.valueOf(vat));
         if (!destiationDirectory.exists()) {
             destiationDirectory.mkdir();
         }
